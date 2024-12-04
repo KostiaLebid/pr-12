@@ -1,0 +1,33 @@
+function makeDraggable(element) {
+    var offsetX, offsetY, isDragging = false;
+    var maxX = window.innerWidth - element.offsetWidth;
+    var maxY = window.innerHeight - element.offsetHeight;
+
+    element.addEventListener('mousedown', function(e) {
+        isDragging = true;
+        offsetX = e.clientX - element.getBoundingClientRect().left;
+        offsetY = e.clientY - element.getBoundingClientRect().top;
+        element.style.zIndex = 1000; // Переміщений елемент буде на передньому плані
+    });
+
+    document.addEventListener('mousemove', function(e) {
+        if (isDragging) {
+            var newX = e.clientX - offsetX;
+            var newY = e.clientY - offsetY;
+
+            // Обмеження переміщення елемента в межах вікна
+            if (newX < 0) newX = 0;
+            if (newY < 0) newY = 0;
+            if (newX > maxX) newX = maxX;
+            if (newY > maxY) newY = maxY;
+
+            element.style.left = newX + 'px';
+            element.style.top = newY + 'px';
+        }
+    });
+
+    document.addEventListener('mouseup', function() {
+        isDragging = false;
+        element.style.zIndex = ''; // Повертаємо zIndex до нормального значення
+    });
+}
