@@ -1,1 +1,67 @@
+// Створення трьох об'єктів (DOM елементів) через JavaScript
+var object1 = document.createElement('div'); // Квадрат
+var object2 = document.createElement('div'); // Коло
+var object3 = document.createElement('div'); // Трикутник
+
+// Призначення стилів для об'єктів
+// Квадрат (об'єкт1)
+object1.style.width = '100px';
+object1.style.height = '100px';
+object1.style.backgroundColor = 'rgba(255, 0, 0, 0.5)'; // Напівпрозорий червоний
+object1.style.position = 'absolute';
+object1.style.left = '50px';
+object1.style.top = '50px';
+
+// Коло (об'єкт2)
+object2.style.width = '100px';
+object2.style.height = '100px';
+object2.style.backgroundColor = 'rgba(0, 255, 0, 0.5)'; // Напівпрозорий зелений
+object2.style.position = 'absolute';
+object2.style.left = '200px';
+object2.style.top = '50px';
+object2.style.borderRadius = '50%'; // Робимо коло
+
+// Трикутник (об'єкт3)
+object3.style.width = '0';
+object3.style.height = '0';
+object3.style.borderLeft = '50px solid transparent';
+object3.style.borderRight = '50px solid transparent';
+object3.style.borderBottom = '100px solid rgba(0, 0, 255, 0.5)'; // Напівпрозорий синій
+object3.style.position = 'absolute';
+object3.style.left = '350px';
+object3.style.top = '50px';
+
+// Додавання елементів на сторінку
+document.body.appendChild(object1);
+document.body.appendChild(object2);
+document.body.appendChild(object3);
+
+// Функція для переміщення елементів
+function makeDraggable(element) {
+    var offsetX, offsetY, isDragging = false;
+
+    element.addEventListener('mousedown', function(e) {
+        isDragging = true;
+        offsetX = e.clientX - element.getBoundingClientRect().left;
+        offsetY = e.clientY - element.getBoundingClientRect().top;
+        element.style.zIndex = 1000; // Переміщений елемент буде на передньому плані
+    });
+
+    document.addEventListener('mousemove', function(e) {
+        if (isDragging) {
+            element.style.left = (e.clientX - offsetX) + 'px';
+            element.style.top = (e.clientY - offsetY) + 'px';
+        }
+    });
+
+    document.addEventListener('mouseup', function() {
+        isDragging = false;
+        element.style.zIndex = ''; // Повертаємо zIndex до нормального значення
+    });
+}
+
+// Зробити об'єкти переміщуваними
+makeDraggable(object1);
+makeDraggable(object2);
+makeDraggable(object3);
 
