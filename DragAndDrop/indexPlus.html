@@ -1,0 +1,30 @@
+function makeDraggable(element) {
+    var offsetX, offsetY, isDragging = false;
+
+    element.addEventListener('mousedown', function(e) {
+        isDragging = true;
+        offsetX = e.clientX - element.getBoundingClientRect().left;
+        offsetY = e.clientY - element.getBoundingClientRect().top;
+        element.style.zIndex = 1000; // Переміщений елемент буде на передньому плані
+    });
+
+    document.addEventListener('mousemove', function(e) {
+        if (isDragging) {
+            element.style.left = (e.clientX - offsetX) + 'px';
+            element.style.top = (e.clientY - offsetY) + 'px';
+        }
+    });
+
+    document.addEventListener('mouseup', function() {
+        isDragging = false;
+        element.style.zIndex = ''; // Повертаємо zIndex до нормального значення
+    });
+
+    // Зміна кольору при кліку
+    element.addEventListener('click', function() {
+        var randomColor = 'rgba(' + Math.floor(Math.random() * 256) + ',' +
+                          Math.floor(Math.random() * 256) + ',' +
+                          Math.floor(Math.random() * 256) + ', 0.5)';
+        element.style.backgroundColor = randomColor;
+    });
+}
